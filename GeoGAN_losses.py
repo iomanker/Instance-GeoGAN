@@ -22,7 +22,7 @@ class flow_loss():
         # By_landmark: (10, 1, 68, 2)
         # sampled_flow: (10, 1, 68, 2)
         # target_flow: (10, 1, 68, 2)
-        loss = self.mse(sampled_flow, target_flow)
+        loss = 256*self.mse(sampled_flow, target_flow)
         return loss
     def totalVariation_loss(self,flow):
         #         (10, 128, 128, 2)
@@ -30,7 +30,7 @@ class flow_loss():
         y_diff = flow[:,:-1,:-1,:] - flow[:,1:,:-1,:]
         sq_diff = tf.clip_by_value(x_diff*x_diff+y_diff*y_diff, clip_value_min=1e-3,clip_value_max=1000000)
         #tv = tf.image.total_variation(flow)
-        return tf.reduce_mean(tf.reduce_mean(sq_diff,0))
+        return tf.reduce_mean(sq_diff)
     # return landmark_loss, totalVariation_loss
 class lsgan_loss():
     def __init__(self):
