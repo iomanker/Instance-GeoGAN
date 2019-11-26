@@ -71,7 +71,8 @@ def load_csvdata_weneed():
     return Ax_filenames_ds,By_filenames_ds,landmark_dict
 
 # celebA 資料處理
-# 要Ax, By, landmark_Ax, landmark_By
+# Eng: celebA for data processing
+# Need Ax, By, landmark_Ax, landmark_By
 
 def write_into_csv(Ax_filenames_ds,By_filenames_ds):
     Ax_filenames_ds = Ax_filenames[:10000]
@@ -85,14 +86,15 @@ def write_into_csv(Ax_filenames_ds,By_filenames_ds):
 
 def set_celebA_data():
     # 取得Train,Validation圖片檔案名
+    # Eng: Get image filenames of Train,Validation
     with open(EVAL_PATH) as infile:
         lines = infile.readlines()
         lines = [line.strip() for line in lines]
         train_list = [line.split()[0] for line in lines if line.split()[1] == '0']
-        # valid_list = [line.split()[0] for line in lines if line.split()[1] == '1']
     with open(LANDMARK_PATH) as infile:
         landmark_dict = json.load(infile)
     # 篩選有Landmark的圖片檔案名
+    # Eng: Filter image filenames which exist landmark attribute
     train_list = [img for img in train_list if img in landmark_dict]
     # valid_list = [img for img in valid_list if img in landmark_dict]
     
@@ -100,21 +102,24 @@ def set_celebA_data():
     with open(ANNO_PATH) as infile:
         lines = infile.readlines()
         # 所有屬性欄位名稱
+        # All attributes name
         all_attrNames = lines[1].split()
         attribute_dict = {}
         # SEL_ATTRS位在該檔案屬性欄位Index
+        # SEL_ATTRS's index in this file
         selected_attribute_index = [all_attrNames.index(sel_attr) \
                                    for idx, sel_attr in enumerate(SEL_ATTRS) \
                                    if sel_attr in all_attrNames]
         selected_attribute_index = np.array(selected_attribute_index)
-        # 檔名迭代
         for line in lines[2:]:
             splits = line.split()
             # 取得所有欄位戳記
+            # Eng: Get all attribute columns
             attribute_value = [int(x) for x in splits[1:]]
             attribute_value = np.array(attribute_value)
             # attribute_value[attribute_value == -1] = 0
             # 選擇SEL_ATTRS
+            # Select SEL_ATTRS
             attribute_dict[splits[0]] = attribute_value[selected_attribute_index]
     attribute_dict = {img: attribute_dict[img] \
                       for img in attribute_dict \
