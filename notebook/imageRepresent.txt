@@ -1,0 +1,15 @@
+A = Target, B = Source
+x = w/o Attr, y = w/ Attr 
+1. Ax
+2. By
+3. By_warpped
+4. By_warpped Mask
+5. Ay AfterMask
+6. Ay AfterRefine
+7. Refinement-residual_Ay
+8. fakeAy_to_Ax AfterRemoval
+9. fake_Bx AfterRemoval
+10.fakeBx_to_By 
+maskNet
+refinementNet
+removeResidualNet
